@@ -1,28 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mes Musiques</title>
+    <title>Darkmusic – Musiques</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Mes Musiques</h1>
-    <div id="list"></div>
 
-    <script>
-        const LIST_URL = "https://TONSITE.infinityfreeapp.com/list.php";
+<header>
+    <h1>Darkmusic</h1>
+    <p>Écoute mes sons directement ici</p>
+</header>
 
-        fetch(LIST_URL)
-            .then(r => r.json())
-            .then(files => {
-                const container = document.getElementById("list");
-                files.forEach(f => {
-                    const audio = document.createElement("audio");
-                    audio.controls = true;
-                    audio.src = "https://TONSITE.infinityfreeapp.com/musics/" + f;
-                    container.appendChild(audio);
-                    container.appendChild(document.createElement("br"));
-                });
-            });
-    </script>
+<div id="music-list" class="music-container"></div>
+
+<script>
+const LIST_URL = "http://darkmusic.xo.je/list.php";
+
+fetch(LIST_URL)
+    .then(r => r.json())
+    .then(files => {
+        const container = document.getElementById("music-list");
+
+        files.forEach(f => {
+            const card = document.createElement("div");
+            card.className = "music-card";
+
+            card.innerHTML = `
+                <div class="music-title">${f}</div>
+                <audio controls src="http://darkmusic.xo.je/musics/${f}"></audio>
+            `;
+
+            container.appendChild(card);
+        });
+    });
+</script>
+
 </body>
 </html>
