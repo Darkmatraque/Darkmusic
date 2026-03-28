@@ -1,76 +1,121 @@
+/* --- GLOBAL --- */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0d0d0f;
-    color: white;
+    background: #050505;
+    font-family: "Montserrat", sans-serif;
+    color: #e6e6e6;
+    overflow-x: hidden;
 }
 
+/* --- HEADER --- */
 header {
     text-align: center;
-    padding: 40px 20px;
-    background: linear-gradient(135deg, #5a00ff, #9b00ff);
-    box-shadow: 0 0 25px #5a00ff;
+    padding: 60px 20px;
+    background: radial-gradient(circle at top, #7a00ff55, #000);
+    border-bottom: 1px solid #7a00ff33;
+    box-shadow: 0 0 40px #7a00ff33;
 }
 
 h1 {
+    font-size: 3.5rem;
     margin: 0;
-    font-size: 3rem;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #b57aff;
+    text-shadow: 0 0 15px #7a00ff;
 }
 
-p {
-    opacity: 0.8;
+header p {
+    margin-top: 10px;
+    opacity: 0.7;
+    font-size: 1.1rem;
 }
 
+/* --- MUSIC GRID --- */
 .music-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    padding: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    padding: 40px;
 }
 
+/* --- MUSIC CARD --- */
 .music-card {
-    background: #16161a;
+    background: #0d0d0f;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(90, 0, 255, 0.3);
-    transition: 0.2s;
+    border: 1px solid #7a00ff22;
+    box-shadow: 0 0 20px #7a00ff22;
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.music-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 180deg, #7a00ff33, transparent);
+    animation: rotate 6s linear infinite;
+    opacity: 0.15;
+}
+
+@keyframes rotate {
+    to { transform: rotate(360deg); }
 }
 
 .music-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(155, 0, 255, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 0 35px #7a00ff55;
 }
 
+/* --- TITLE --- */
 .music-title {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-    color: #c9aaff;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: #d7b7ff;
+    text-shadow: 0 0 8px #7a00ff;
 }
 
+/* --- AUDIO PLAYER --- */
 audio {
     width: 100%;
-    margin-top: 10px;
+    filter: drop-shadow(0 0 5px #7a00ff55);
 }
 
+/* --- ADMIN UPLOAD --- */
 .upload-box {
-    margin: 40px auto;
-    width: 300px;
+    margin: 60px auto;
+    width: 320px;
     text-align: center;
+    background: #0d0d0f;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #7a00ff33;
+    box-shadow: 0 0 25px #7a00ff22;
+}
+
+input[type="file"] {
+    color: #c9aaff;
 }
 
 button {
     margin-top: 15px;
-    padding: 10px 20px;
+    padding: 12px 25px;
     background: #7a00ff;
     border: none;
     color: white;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 1rem;
+    letter-spacing: 1px;
     transition: 0.2s;
 }
 
 button:hover {
     background: #a100ff;
-    box-shadow: 0 0 15px #a100ff;
+    box-shadow: 0 0 20px #a100ff;
 }
