@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Musiques</title>
+</head>
+<body>
+    <h1>Uploader une musique</h1>
+
+    <input type="file" id="fileInput">
+    <button onclick="upload()">Envoyer</button>
+
+    <p id="status"></p>
+
+    <script>
+        const BACKEND_URL = "https://TON_BACKEND.infinityfreeapp.com/upload.php";
+        const SECRET = "TA_CLE_SECRETE_ICI";
+
+        function upload() {
+            const file = document.getElementById("fileInput").files[0];
+            if (!file) return alert("Choisis un fichier");
+
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("secret", SECRET);
+
+            fetch(BACKEND_URL, {
+                method: "POST",
+                body: formData
+            })
+            .then(r => r.text())
+            .then(t => {
+                document.getElementById("status").innerText = t === "OK" ? "Upload réussi" : t;
+            });
+        }
+    </script>
+</body>
+</html>
