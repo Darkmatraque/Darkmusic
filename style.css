@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0d0d0f;
+    color: white;
+}
+
+header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #5a00ff, #9b00ff);
+    box-shadow: 0 0 25px #5a00ff;
+}
+
+h1 {
+    margin: 0;
+    font-size: 3rem;
+    letter-spacing: 2px;
+}
+
+p {
+    opacity: 0.8;
+}
+
+.music-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.music-card {
+    background: #16161a;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(90, 0, 255, 0.3);
+    transition: 0.2s;
+}
+
+.music-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(155, 0, 255, 0.5);
+}
+
+.music-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #c9aaff;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.upload-box {
+    margin: 40px auto;
+    width: 300px;
+    text-align: center;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #7a00ff;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #a100ff;
+    box-shadow: 0 0 15px #a100ff;
+}
