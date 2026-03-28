@@ -21,9 +21,6 @@
 <!-- CANVAS LASERS -->
 <canvas id="lasers"></canvas>
 
-<!-- CANVAS FUMÉE -->
-<canvas id="smoke"></canvas>
-
 <script>
 /* ------------------ UPLOAD ------------------ */
 
@@ -57,7 +54,8 @@ function upload() {
 </script>
 
 <script>
-<script>
+/* ------------------ LASERS FESTIVAL ------------------ */
+
 const canvas = document.getElementById("lasers");
 const ctx = canvas.getContext("2d");
 
@@ -68,17 +66,16 @@ function resizeLasers() {
 resizeLasers();
 window.addEventListener("resize", resizeLasers);
 
-// CONFIG
 const LASERS_LEFT = 6;
 const LASERS_RIGHT = 6;
 
 function randomColor() {
     const colors = [
-        "rgba(255, 0, 80, 0.8)",   // rose festival
-        "rgba(0, 180, 255, 0.8)",  // bleu néon
-        "rgba(180, 0, 255, 0.8)",  // violet rave
-        "rgba(0, 255, 160, 0.8)",  // vert laser
-        "rgba(255, 120, 0, 0.8)"   // orange festival
+        "rgba(255, 0, 80, 0.8)",
+        "rgba(0, 180, 255, 0.8)",
+        "rgba(180, 0, 255, 0.8)",
+        "rgba(0, 255, 160, 0.8)",
+        "rgba(255, 120, 0, 0.8)"
     ];
     return colors[Math.floor(Math.random() * colors.length)];
 }
@@ -86,31 +83,23 @@ function randomColor() {
 function createLaser(side) {
     return {
         side,
-        angle: -Math.PI / 2 + (Math.random() * 0.4 - 0.2), // vers le haut
+        angle: -Math.PI / 2 + (Math.random() * 0.4 - 0.2),
         speed: 0.003 + Math.random() * 0.01,
         width: 2 + Math.random() * 4,
-        color: randomColor(),
-        offset: Math.random() * 150
+        color: randomColor()
     };
 }
 
 let lasers = [];
 
-// Lasers du coin bas gauche
-for (let i = 0; i < LASERS_LEFT; i++) {
-    lasers.push(createLaser("left"));
-}
-
-// Lasers du coin bas droit
-for (let i = 0; i < LASERS_RIGHT; i++) {
-    lasers.push(createLaser("right"));
-}
+for (let i = 0; i < LASERS_LEFT; i++) lasers.push(createLaser("left"));
+for (let i = 0; i < LASERS_RIGHT; i++) lasers.push(createLaser("right"));
 
 function animateLasers() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     lasers.forEach(l => {
-        l.angle += (Math.random() * 0.004 - 0.002); // léger tremblement réaliste
+        l.angle += (Math.random() * 0.004 - 0.002);
 
         let xStart = (l.side === "left") ? 0 : canvas.width;
         let yStart = canvas.height;
@@ -134,3 +123,6 @@ function animateLasers() {
 }
 animateLasers();
 </script>
+
+</body>
+</html>
