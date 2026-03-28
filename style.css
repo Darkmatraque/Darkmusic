@@ -130,3 +130,25 @@ button:hover {
     pointer-events: none;
     filter: blur(2px) brightness(1.4);
 }
+
+#smoke, #visualizer {
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    pointer-events: none;
+    z-index: -2;
+}
+
+#smoke {
+    top: 0;
+    height: 100vh;
+    filter: blur(40px);
+}
+
+#visualizer {
+    bottom: 0;
+    height: 150px;
+    z-index: 5;
+    opacity: 0.8;
+}
+
