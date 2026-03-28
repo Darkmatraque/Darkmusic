@@ -119,3 +119,14 @@ button:hover {
     background: #a100ff;
     box-shadow: 0 0 20px #a100ff;
 }
+
+#lasers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(2px) brightness(1.4);
+}
