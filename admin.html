@@ -18,13 +18,19 @@
     <p id="status"></p>
 </div>
 
+<!-- CANVAS LASERS -->
+<canvas id="lasers"></canvas>
+
 <script>
 const BACKEND_URL = "http://darkmusic.xo.je/upload.php";
 const SECRET = "Darkmusic_secret";
 
 function upload() {
     const file = document.getElementById("fileInput").files[0];
-    if (!file) return alert("Choisis un fichier");
+    if (!file) {
+        document.getElementById("status").innerText = "Choisis un fichier.";
+        return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
@@ -35,8 +41,66 @@ function upload() {
         .then(t => {
             document.getElementById("status").innerText =
                 t === "OK" ? "Upload réussi !" : "Erreur : " + t;
+        })
+        .catch(() => {
+            document.getElementById("status").innerText = "Erreur de connexion.";
         });
 }
+</script>
+
+<!-- SCRIPT ANIMATION LASERS -->
+<script>
+const canvas = document.getElementById("lasers");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.onresize = resize;
+
+let lasers = [];
+for (let i = 0; i < 12; i++) {
+    lasers.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        angle: Math.random() * Math.PI * 2,
+        speed: 1 + Math.random() * 2,
+        width: 2 + Math.random() * 3,
+        color: `hsla(${260 + Math.random()*40}, 100%, 60%, 0.6)`
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    lasers.forEach(l => {
+        ctx.strokeStyle = l.color;
+        ctx.lineWidth = l.width;
+
+        ctx.beginPath();
+        ctx.moveTo(l.x, l.y);
+        ctx.lineTo(
+            l.x + Math.cos(l.angle) * 300,
+            l.y + Math.sin(l.angle) * 300
+        );
+        ctx.stroke();
+
+        l.x += Math.cos(l.angle) * l.speed;
+        l.y += Math.sin(l.angle) * l.speed;
+
+        if (l.x < -300 || l.x > canvas.width + 300 ||
+            l.y < -300 || l.y > canvas.height + 300) {
+            l.x = Math.random() * canvas.width;
+            l.y = Math.random() * canvas.height;
+            l.angle = Math.random() * Math.PI * 2;
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
