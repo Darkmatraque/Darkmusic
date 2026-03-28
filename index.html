@@ -9,7 +9,7 @@
     <div id="list"></div>
 
     <script>
-        const LIST_URL = "https://TON_BACKEND.infinityfreeapp.com/list.php";
+        const LIST_URL = "https://TONSITE.infinityfreeapp.com/list.php";
 
         fetch(LIST_URL)
             .then(r => r.json())
@@ -18,7 +18,7 @@
                 files.forEach(f => {
                     const audio = document.createElement("audio");
                     audio.controls = true;
-                    audio.src = "https://TON_BACKEND.infinityfreeapp.com/musics/" + f;
+                    audio.src = "https://TONSITE.infinityfreeapp.com/musics/" + f;
                     container.appendChild(audio);
                     container.appendChild(document.createElement("br"));
                 });
