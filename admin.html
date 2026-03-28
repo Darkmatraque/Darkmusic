@@ -1,38 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Upload Musiques</title>
+    <title>Darkmusic – Admin</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Uploader une musique</h1>
 
+<header>
+    <h1>Darkmusic – Admin</h1>
+    <p>Uploader une nouvelle musique</p>
+</header>
+
+<div class="upload-box">
     <input type="file" id="fileInput">
     <button onclick="upload()">Envoyer</button>
-
     <p id="status"></p>
+</div>
 
-    <script>
-        const BACKEND_URL = "https://TONSITE.infinityfreeapp.com/upload.php";
-        const SECRET = "Darkmusic_secret";
+<script>
+const BACKEND_URL = "http://darkmusic.xo.je/upload.php";
+const SECRET = "Darkmusic_secret";
 
-        function upload() {
-            const file = document.getElementById("fileInput").files[0];
-            if (!file) return alert("Choisis un fichier");
+function upload() {
+    const file = document.getElementById("fileInput").files[0];
+    if (!file) return alert("Choisis un fichier");
 
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("secret", SECRET);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("secret", SECRET);
 
-            fetch(BACKEND_URL, {
-                method: "POST",
-                body: formData
-            })
-            .then(r => r.text())
-            .then(t => {
-                document.getElementById("status").innerText = t === "OK" ? "Upload réussi" : t;
-            });
-        }
-    </script>
+    fetch(BACKEND_URL, { method: "POST", body: formData })
+        .then(r => r.text())
+        .then(t => {
+            document.getElementById("status").innerText =
+                t === "OK" ? "Upload réussi !" : "Erreur : " + t;
+        });
+}
+</script>
+
 </body>
 </html>
