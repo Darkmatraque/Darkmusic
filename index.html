@@ -17,6 +17,12 @@
 <!-- CANVAS LASERS -->
 <canvas id="lasers"></canvas>
 
+<!-- CANVAS FUMÉE -->
+<canvas id="smoke"></canvas>
+
+<!-- CANVAS VISUALIZER -->
+<canvas id="visualizer"></canvas>
+
 <script>
 /* ------------------ CHARGEMENT DES MUSIQUES ------------------ */
 
@@ -51,12 +57,12 @@ fetch(LIST_URL)
 const canvas = document.getElementById("lasers");
 const ctx = canvas.getContext("2d");
 
-function resize() {
+function resizeLasers() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
-resize();
-window.addEventListener("resize", resize);
+resizeLasers();
+window.addEventListener("resize", resizeLasers);
 
 const LASER_COUNT = 8;
 const lasers = [];
@@ -81,7 +87,7 @@ for (let i = 0; i < LASER_COUNT; i++) {
     });
 }
 
-function animate() {
+function animateLasers() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     lasers.forEach(l => {
@@ -105,9 +111,118 @@ function animate() {
         ctx.stroke();
     });
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateLasers);
 }
-animate();
+animateLasers();
+</script>
+
+<script>
+/* ------------------ FUMÉE RÉALISTE ------------------ */
+
+const smokeCanvas = document.getElementById("smoke");
+const smokeCtx = smokeCanvas.getContext("2d");
+
+function resizeSmoke() {
+    smokeCanvas.width = window.innerWidth;
+    smokeCanvas.height = window.innerHeight;
+}
+resizeSmoke();
+window.addEventListener("resize", resizeSmoke);
+
+let particles = [];
+for (let i = 0; i < 40; i++) {
+    particles.push({
+        x: Math.random() * smokeCanvas.width,
+        y: Math.random() * smokeCanvas.height,
+        size: 80 + Math.random() * 120,
+        speedX: -0.3 + Math.random() * 0.6,
+        speedY: -0.3 + Math.random() * 0.6,
+        opacity: 0.05 + Math.random() * 0.1
+    });
+}
+
+function smokeLoop() {
+    smokeCtx.clearRect(0, 0, smokeCanvas.width, smokeCanvas.height);
+
+    particles.forEach(p => {
+        smokeCtx.beginPath();
+        smokeCtx.fillStyle = `rgba(200, 200, 255, ${p.opacity})`;
+        smokeCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        smokeCtx.fill();
+
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        if (p.x < -200) p.x = smokeCanvas.width + 200;
+        if (p.x > smokeCanvas.width + 200) p.x = -200;
+        if (p.y < -200) p.y = smokeCanvas.height + 200;
+        if (p.y > smokeCanvas.height + 200) p.y = -200;
+    });
+
+    requestAnimationFrame(smokeLoop);
+}
+smokeLoop();
+</script>
+
+<script>
+/* ------------------ VISUALIZER AUDIO ------------------ */
+
+const vis = document.getElementById("visualizer");
+const vctx = vis.getContext("2d");
+
+function resizeVis() {
+    vis.width = window.innerWidth;
+    vis.height = 150;
+}
+resizeVis();
+window.addEventListener("resize", resizeVis);
+
+let audioCtx;
+let analyser;
+let source;
+
+function setupVisualizer(audio) {
+    if (!audioCtx) {
+        audioCtx = new AudioContext();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 128;
+    }
+
+    if (source) source.disconnect();
+
+    source = audioCtx.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+}
+
+function drawVis() {
+    requestAnimationFrame(drawVis);
+
+    if (!analyser) return;
+
+    const buffer = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(buffer);
+
+    vctx.clearRect(0, 0, vis.width, vis.height);
+
+    const barWidth = vis.width / buffer.length;
+
+    for (let i = 0; i < buffer.length; i++) {
+        const barHeight = buffer[i] * 1.2;
+        const x = i * barWidth;
+
+        vctx.fillStyle = `hsl(${260 + i * 2}, 100%, 60%)`;
+        vctx.fillRect(x, vis.height - barHeight, barWidth - 2, barHeight);
+    }
+}
+drawVis();
+
+document.addEventListener("play", e => {
+    if (e.target.tagName === "AUDIO") {
+        setupVisualizer(e.target);
+        audioCtx.resume();
+    }
+}, true);
 </script>
 
 </body>
